@@ -1,0 +1,28 @@
+<section class="panel">
+  <div class="row">
+    <h2>Currencies</h2>
+    <a class="primary-btn" routerLink="/admin/currencies/create">Create</a>
+  </div>
+
+  <table class="data-table">
+    <thead>
+      <tr>
+        <th>Code</th>
+        <th>Name</th>
+        <th>Active</th>
+        <th>Actions</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let cur of currencies">
+        <td>{{ cur.code }}</td>
+        <td>{{ cur.name }}</td>
+        <td>{{ cur.active ? 'Yes' : 'No' }}</td>
+        <td>
+          <a [routerLink]="['/admin/currencies', cur.id, 'edit']" class="btn-edit">Edit</a>
+          <button (click)="delete(cur.id)" class="btn-delete">Delete</button>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</section>

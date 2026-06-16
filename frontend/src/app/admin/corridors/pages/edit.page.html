@@ -1,0 +1,11 @@
+<section class="panel">
+  <div class="row">
+    <h2>Edit Corridor</h2>
+  </div>
+  <div *ngIf="loading"        class="alert alert-info">Loading...</div>
+  <div *ngIf="successMessage" class="alert alert-success">{{ successMessage }}</div>
+  <div *ngIf="error"          class="alert alert-error">{{ error }}</div>
+  @if (corridor) {
+    <app-corridors-form [corridor]="corridor" (submit)="onSubmit($event)"></app-corridors-form>
+  }
+</section>

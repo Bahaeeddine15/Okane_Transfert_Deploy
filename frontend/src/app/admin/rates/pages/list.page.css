@@ -1,0 +1,132 @@
+.rates-page {
+  display: grid;
+  gap: 18px;
+}
+
+.page-header {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 16px;
+  background: #fff;
+  border: 1px solid #e5e7eb;
+  border-radius: 8px;
+  padding: 18px 20px;
+}
+
+.page-header h2 {
+  margin: 0;
+  font-size: 22px;
+  color: #0f172a;
+}
+
+.page-header p {
+  margin: 4px 0 0;
+  color: #64748b;
+  font-size: 14px;
+}
+
+.refresh-state {
+  min-height: 34px;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 7px 10px;
+  border: 1px solid #dbe3ef;
+  border-radius: 8px;
+  color: #475569;
+  font-size: 13px;
+  white-space: nowrap;
+}
+
+.state-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 999px;
+  background: #16a34a;
+}
+
+.refresh-state.refreshing .state-dot {
+  background: #2563eb;
+}
+
+.alert,
+.placeholder {
+  border-radius: 8px;
+  padding: 14px 16px;
+  background: #fff;
+  border: 1px solid #e5e7eb;
+  color: #475569;
+}
+
+.alert {
+  border-color: #fecaca;
+  background: #fff1f2;
+  color: #be123c;
+}
+
+.table-shell {
+  overflow-x: auto;
+  background: #fff;
+  border: 1px solid #e5e7eb;
+  border-radius: 8px;
+}
+
+.data-table {
+  width: 100%;
+  min-width: 760px;
+  border-collapse: collapse;
+}
+
+.data-table thead th {
+  text-align: left;
+  font-weight: 700;
+  padding: 12px 14px;
+  border-bottom: 1px solid #e5e7eb;
+  color: #0f172a;
+  background: #f8fafc;
+}
+
+.data-table tbody td {
+  padding: 12px 14px;
+  border-bottom: 1px solid #f1f5f9;
+  color: #334155;
+}
+
+.data-table tbody tr:last-child td {
+  border-bottom: 0;
+}
+
+.currency-code {
+  display: inline-flex;
+  min-width: 48px;
+  justify-content: center;
+  padding: 4px 8px;
+  border-radius: 6px;
+  background: #eef2ff;
+  color: #3730a3;
+  font-weight: 700;
+  text-transform: uppercase;
+}
+
+.currency-code.target {
+  background: #ecfdf5;
+  color: #047857;
+}
+
+.rate-value {
+  font-variant-numeric: tabular-nums;
+  font-weight: 700;
+  color: #0f172a;
+}
+
+@media (max-width: 720px) {
+  .page-header {
+    display: grid;
+  }
+
+  .refresh-state {
+    width: max-content;
+    max-width: 100%;
+  }
+}

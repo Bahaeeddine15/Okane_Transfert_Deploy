@@ -1,0 +1,53 @@
+<section class="rates-page">
+  <header class="page-header">
+    <div>
+      <h2>Exchange rates</h2>
+      <p>Data synchronized automatically from the database.</p>
+    </div>
+
+    <div class="refresh-state" [class.refreshing]="refreshing">
+      <span class="state-dot"></span>
+      <span *ngIf="lastRefresh; else waiting">
+        Last read {{ lastRefresh | date:'HH:mm:ss' }}
+      </span>
+      <ng-template #waiting>Reading in progress</ng-template>
+    </div>
+  </header>
+
+  <div *ngIf="error" class="alert">
+    {{ error }}
+  </div>
+
+  <div *ngIf="loading" class="placeholder">
+    Loading exchange rates...
+  </div>
+
+  <div *ngIf="!loading && !rates.length && !error" class="placeholder">
+    No exchange rates available.
+  </div>
+
+  <div *ngIf="!loading && rates.length" class="table-shell">
+    <table class="data-table">
+      <thead>
+        <tr>
+          <th>Source currency</th>
+          <th>Target currency</th>
+          <th>Conversion rate</th>
+          <th>Last updated</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let rate of rates; trackBy: trackByRateId">
+          <td>
+            <span class="currency-code">{{ rate.currencyFrom }}</span>
+          </td>
+          <td>
+            <span class="currency-code target">{{ rate.currencyTo }}</span>
+          </td>
+          <td class="rate-value">{{ rate.rate | number:'1.4-8' }}</td>
+          <td>{{ rate.updatedAt | date:'dd/MM/yyyy HH:mm:ss' }}</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</section>

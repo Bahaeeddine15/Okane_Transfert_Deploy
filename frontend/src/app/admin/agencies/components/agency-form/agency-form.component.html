@@ -1,0 +1,112 @@
+<section class="panel">
+  <div class="page-header">
+    <div>
+      <h2>{{ isEditMode ? 'Edit agency' : 'New agency' }}</h2>
+      <p>Fill in the administrative information for the agency.</p>
+    </div>
+    <a class="secondary-btn" routerLink="/admin/agencies">Back</a>
+  </div>
+
+  @if (isLoading) {
+  <div class="placeholder">Loading agency...</div>
+  }
+
+  @if (!isLoading) {
+  <form class="agency-form" [formGroup]="form" (ngSubmit)="submit()">
+    <label>
+      <span>Name</span>
+      <input type="text" formControlName="name" />
+      @if (form.controls.name.touched && form.controls.name.invalid) {
+      <small>Name is required.</small>
+      }
+    </label>
+
+    <label>
+      <span>Address</span>
+      <input type="text" formControlName="address" />
+      @if (form.controls.address.touched && form.controls.address.invalid) {
+      <small>Address is required.</small>
+      }
+    </label>
+
+    <label class="checkbox-row">
+      <input type="checkbox" formControlName="active" />
+      <span>Active agency</span>
+    </label>
+
+    <label>
+      <span>Daily limit</span>
+      <input type="number" min="0" formControlName="dailyLimit" />
+      @if (form.controls.dailyLimit.touched && form.controls.dailyLimit.invalid) {
+      <small>Daily limit is required and must be positive.</small>
+      }
+    </label>
+
+    <label>
+      <span>Country</span>
+      <select formControlName="countryId">
+        <option [ngValue]="0">Select a country</option>
+        @for (country of countries; track country.id) {
+        <option [ngValue]="country.id">
+          {{ country.name }}{{ country.isoCode ? ' - ' + country.isoCode : '' }}
+        </option>
+        }
+      </select>
+    </label>
+
+    @if (isEditMode) {
+    <section class="cash-registers-section">
+      <div class="section-heading">
+        <h3>Cash Registers</h3>
+        <p>The distribution automatically uses the daily limit across active registers.</p>
+      </div>
+
+      @if (cashRegisterForms.controls.length === 0) {
+      <div class="placeholder">No cash registers associated.</div>
+      }
+
+      @if (cashRegisterForms.controls.length > 0) {
+      <div class="cash-register-list">
+        @for (cashRegister of cashRegisterForms.controls; track cashRegister.controls.id.value) {
+        <div class="cash-register-row" [formGroup]="cashRegister">
+          <div>
+            <strong>Register #{{ cashRegister.controls.id.value }}</strong>
+            <span>{{ cashRegister.controls.active.value ? 'Active' : 'Inactive' }}</span>
+          </div>
+
+          <label class="checkbox-row">
+            <input type="checkbox" formControlName="active" />
+            <span>Active</span>
+          </label>
+
+          <label>
+            <span>Agent</span>
+            <select formControlName="agentCode">
+              <option value="">No agent</option>
+              @for (agent of agencyAgents; track agent.id) {
+              <option [value]="agent.agentCode">
+                {{ formatAgent(agent) }}
+              </option>
+              }
+            </select>
+          </label>
+        </div>
+        }
+      </div>
+      }
+    </section>
+    }
+
+    @if (errorMessage) {
+    <div class="error">{{ errorMessage }}</div>
+    }
+
+    <div class="actions">
+      <a class="secondary-btn" routerLink="/admin/agencies">Cancel</a>
+      <button class="primary-btn" type="submit" [disabled]="isSubmitting">
+        {{ isSubmitting ? 'Saving...' : 'Save' }}
+      </button>
+    </div>
+  </form>
+  }
+</section>

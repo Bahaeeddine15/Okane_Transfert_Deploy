@@ -1,0 +1,8 @@
+<section class="panel">
+  <div class="row">
+    <h2>Edit Currency</h2>
+  </div>
+  <ng-container *ngIf="currency">
+    <app-currencies-form [currency]="currency" (submit)="onSubmit($event)"></app-currencies-form>
+  </ng-container>
+</section>

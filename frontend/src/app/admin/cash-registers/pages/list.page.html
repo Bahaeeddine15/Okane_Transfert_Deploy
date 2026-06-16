@@ -1,0 +1,67 @@
+<section class="panel">
+  <div class="page-header">
+    <div>
+      <h2>Cash registers</h2>
+      <p>Monitor agent drawers, agencies, status, and balances.</p>
+    </div>
+    <div class="header-actions">
+      <a class="primary-btn" routerLink="/admin/cash-registers/new">New cash register</a>
+      <button type="button" class="secondary-btn" (click)="refresh()">Refresh</button>
+    </div>
+  </div>
+
+  @if (errorMessage) {
+    <div class="error">{{ errorMessage }}</div>
+  }
+
+  <form [formGroup]="filters" class="toolbar">
+    <label>
+      <span>Agency</span>
+      <input type="search" formControlName="agency" placeholder="Agency name or ID" />
+    </label>
+    <label>
+      <span>Status</span>
+      <select formControlName="status">
+        <option value="">All</option>
+        <option value="OPEN">OPEN</option>
+        <option value="CLOSED">CLOSED</option>
+      </select>
+    </label>
+  </form>
+
+  @if (filteredCashRegisters$ | async; as cashRegisters) {
+    <table class="data-table">
+      <thead>
+        <tr>
+          <th>ID</th>
+          <th>Agent</th>
+          <th>Agency</th>
+          <th>Status</th>
+          <th>Balance</th>
+          <th>Opened</th>
+          <th>Actions</th>
+        </tr>
+      </thead>
+      <tbody>
+        @for (cashRegister of cashRegisters; track cashRegister.id) {
+          <tr>
+            <td>{{ cashRegister.id }}</td>
+            <td>{{ cashRegister.agentName }}</td>
+            <td>{{ cashRegister.agencyName }}</td>
+            <td><span class="status" [class.closed]="cashRegister.status === 'CLOSED'">{{ cashRegister.status }}</span></td>
+            <td class="amount">{{ cashRegister.currentBalance | currency:'MAD':'symbol':'1.2-2' }}</td>
+            <td>{{ cashRegister.openedAt ? (cashRegister.openedAt | date:'short') : '-' }}</td>
+            <td><a class="link-btn" [routerLink]="['/admin/cash-registers', cashRegister.id]">Details</a></td>
+          </tr>
+        }
+        @if (cashRegisters.length === 0) {
+          <tr>
+            <td colspan="7" class="placeholder">No cash registers found.</td>
+          </tr>
+        }
+      </tbody>
+    </table>
+  } @else {
+    <div class="placeholder">Loading cash registers...</div>
+  }
+</section>

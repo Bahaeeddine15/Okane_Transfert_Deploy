@@ -1,0 +1,41 @@
+<section class="panel">
+  <div class="row">
+    <h2>Agents</h2>
+  </div>
+
+  @if (agents$ | async; as agents) {
+  <table class="data-table">
+    <thead>
+      <tr>
+        <th>ID</th>
+        <th>Code</th>
+        <th>Name</th>
+        <th>Email</th>
+        <th>Phone</th>
+        <th>Agency</th>
+        <th>Status</th>
+      </tr>
+    </thead>
+    <tbody>
+      @for (agent of agents; track agent.id) {
+      <tr>
+        <td>{{ agent.id }}</td>
+        <td>{{ agent.agentCode || '-' }}</td>
+        <td>{{ (agent.firstName || '') + ' ' + (agent.lastName || '') }}</td>
+        <td>{{ agent.email || '-' }}</td>
+        <td>{{ agent.phoneNumber || '-' }}</td>
+        <td>{{ agent.agencyName || agent.agencyId || '-' }}</td>
+        <td>{{ agent.status ? 'Active' : 'Inactive' }}</td>
+      </tr>
+      }
+      @if (agents.length === 0) {
+      <tr>
+        <td colspan="7" class="placeholder">No agents found.</td>
+      </tr>
+      }
+    </tbody>
+  </table>
+  } @else {
+    <div class="placeholder">Loading agents...</div>
+  }
+</section>

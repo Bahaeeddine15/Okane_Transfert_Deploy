@@ -1,0 +1,44 @@
+<section class="panel">
+  <div class="row">
+    <h2>Corridors</h2>
+    <div style="display:flex;gap:8px">
+      <button class="btn btn-neutral" (click)="loadCorridors()" [disabled]="loading">↺ Refresh</button>
+      <a class="primary-btn btn-create" routerLink="/admin/corridors/create">Create</a>
+    </div>
+  </div>
+
+  <div *ngIf="successMessage" class="alert alert-success">{{ successMessage }}</div>
+  <div *ngIf="error"          class="alert alert-error">{{ error }}</div>
+  <div *ngIf="loading"        class="alert alert-info">Loading corridors...</div>
+
+  <table class="data-table">
+    <thead>
+      <tr>
+        <th>ID</th>
+        <th>From</th>
+        <th>To</th>
+        <th>Fixed Cost</th>
+        <th>Status</th>
+        <th>Actions</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let c of corridors">
+        <td>{{ c.id }}</td>
+        <td>{{ c.sourceCountryName }}</td>
+        <td>{{ c.destinationCountryName }}</td>
+        <td>{{ c.fixedCost }}</td>
+        <td>
+          <span [class.active]="c.active" [class.inactive]="!c.active">
+            {{ c.active ? 'Active' : 'Inactive' }}
+          </span>
+        </td>
+        <td>
+          <button (click)="toggleActive(c)" class="primary-btn btn-create">
+            {{ c.active ? 'Disable' : 'Enable' }}
+          </button>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</section>

@@ -1,0 +1,62 @@
+<section class="panel">
+  <div class="page-header">
+    <div>
+      <h2>New cash register</h2>
+      <p>Select an agency, then an agent from that agency.</p>
+    </div>
+    <a class="secondary-btn" routerLink="/admin/cash-registers">Back</a>
+  </div>
+
+  @if (isLoadingAgencies) {
+  <div class="placeholder">Loading agencies...</div>
+  }
+
+  @if (!isLoadingAgencies) {
+  <form class="cash-register-form" [formGroup]="form" (ngSubmit)="submit()">
+    <label>
+      <span>Agency</span>
+      <select formControlName="agencyId" (change)="onAgencyChange()">
+        <option [ngValue]="0">Select an agency</option>
+        @for (agency of agencies; track agency.id) {
+        <option [ngValue]="agency.id">{{ agency.name }}</option>
+        }
+      </select>
+      @if (form.controls.agencyId.touched && form.controls.agencyId.invalid) {
+      <small>Agency is required.</small>
+      }
+    </label>
+
+    <label>
+      <span>Agent</span>
+      <select formControlName="agentCode" [disabled]="!form.controls.agencyId.value || isLoadingAgents">
+        <option value="">Select an agent</option>
+        @for (agent of agents; track agent.id) {
+        <option [value]="agent.agentCode">{{ formatAgent(agent) }}</option>
+        }
+      </select>
+      @if (form.controls.agentCode.touched && form.controls.agentCode.invalid) {
+      <small>Agent is required.</small>
+      }
+    </label>
+
+    @if (isLoadingAgents) {
+    <div class="placeholder">Loading agents...</div>
+    }
+
+    @if (form.controls.agencyId.value && !isLoadingAgents && agents.length === 0) {
+    <div class="placeholder">No active agents available for this agency.</div>
+    }
+
+    @if (errorMessage) {
+    <div class="error">{{ errorMessage }}</div>
+    }
+
+    <div class="actions">
+      <a class="secondary-btn" routerLink="/admin/cash-registers">Cancel</a>
+      <button class="primary-btn" type="submit" [disabled]="isSubmitting || isLoadingAgents || agents.length === 0">
+        {{ isSubmitting ? 'Creating...' : 'Create cash register' }}
+      </button>
+    </div>
+  </form>
+  }
+</section>

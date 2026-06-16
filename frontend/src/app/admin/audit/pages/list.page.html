@@ -1,0 +1,45 @@
+<section class="panel">
+  <div class="row">
+    <h2>Audit</h2>
+  </div>
+
+  @if (events$ | async; as events) {
+  <table class="data-table">
+    <thead>
+      <tr>
+        <th>ID</th>
+        <th>Action</th>
+        <th>Detail</th>
+        <th>Agency</th>
+        <th>Agent</th>
+        <th>Reference</th>
+        <th>Status</th>
+        <th>Amount</th>
+        <th>Date</th>
+      </tr>
+    </thead>
+    <tbody>
+      @for (event of events; track event.id) {
+      <tr>
+        <td>{{ event.id }}</td>
+        <td>{{ event.action }}</td>
+        <td>{{ event.detail }}</td>
+        <td>{{ event.agencyName }}</td>
+        <td>{{ event.agentCode }}</td>
+        <td>{{ event.transferReference }}</td>
+        <td><span class="status">{{ event.transferStatus }}</span></td>
+        <td>{{ event.transferAmount }}</td>
+        <td>{{ event.timeStamp | date:'short' }}</td>
+      </tr>
+      }
+      @if (events.length === 0) {
+      <tr>
+        <td colspan="9" class="placeholder">No audit entries found.</td>
+      </tr>
+      }
+    </tbody>
+  </table>
+  } @else {
+    <div class="placeholder">Loading audit log...</div>
+  }
+</section>

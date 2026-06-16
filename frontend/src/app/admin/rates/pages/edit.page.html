@@ -1,0 +1,8 @@
+<section class="panel">
+  <div class="row">
+    <h2>Edit Exchange Rate</h2>
+  </div>
+  <ng-container *ngIf="rate">
+    <app-rates-form [rate]="rate" (submit)="onSubmit($event)"></app-rates-form>
+  </ng-container>
+</section>

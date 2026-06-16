@@ -1,0 +1,29 @@
+.panel { padding: 20px; background:#fff; border-radius:8px; box-shadow:0 8px 20px rgba(15,23,42,0.06); }
+.page-header { display:flex; align-items:flex-start; justify-content:space-between; gap:16px; margin-bottom:20px; }
+.page-header h2 { margin:0; font-size:24px; }
+.page-header p { margin:6px 0 0; color:#64748b; }
+.agency-form { display:grid; grid-template-columns:repeat(2, minmax(0, 1fr)); gap:16px; max-width:860px; }
+label { display:grid; gap:6px; color:#334155; font-weight:600; }
+input[type="text"], input[type="number"], select { width:100%; box-sizing:border-box; border:1px solid #dbe3ef; border-radius:8px; padding:11px 12px; font:inherit; background:#fff; }
+small { color:#b91c1c; font-weight:500; }
+.checkbox-row { display:flex; align-items:center; gap:10px; }
+.cash-registers-section { grid-column:1 / -1; display:grid; gap:14px; border-top:1px solid #e2e8f0; padding-top:18px; }
+.section-heading { display:grid; gap:4px; }
+.section-heading h3 { margin:0; font-size:18px; color:#0f172a; }
+.section-heading p { margin:0; color:#64748b; font-weight:500; }
+.cash-register-list { display:grid; gap:10px; }
+.cash-register-row { display:grid; grid-template-columns:minmax(150px, 1fr) 120px minmax(220px, 1.5fr); align-items:center; gap:12px; border:1px solid #e2e8f0; border-radius:8px; padding:12px; }
+.cash-register-row strong { display:block; color:#0f172a; }
+.cash-register-row > div span { display:block; margin-top:4px; color:#64748b; font-weight:600; }
+.placeholder { grid-column:1 / -1; background:#f8fafc; border:1px dashed #cbd5e1; border-radius:8px; color:#64748b; padding:14px; }
+.error { grid-column:1 / -1; color:#b91c1c; background:#fef2f2; border-radius:8px; padding:10px 12px; }
+.actions { grid-column:1 / -1; display:flex; justify-content:flex-end; gap:10px; margin-top:8px; }
+.primary-btn, .secondary-btn { border:0; border-radius:8px; padding:10px 14px; font-weight:700; text-decoration:none; cursor:pointer; }
+.primary-btn { background:#2563eb; color:#fff; }
+.primary-btn:disabled { opacity:.65; cursor:not-allowed; }
+.secondary-btn { background:#f1f5f9; color:#0f172a; }
+@media (max-width: 720px) {
+  .page-header, .actions { flex-direction:column; align-items:stretch; }
+  .agency-form { grid-template-columns:1fr; }
+  .cash-register-row { grid-template-columns:1fr; align-items:stretch; }
+}

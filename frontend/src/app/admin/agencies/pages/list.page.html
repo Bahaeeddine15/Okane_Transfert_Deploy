@@ -1,0 +1,41 @@
+<section class="panel">
+  <div class="row">
+    <h2>Agencies</h2>
+  </div>
+
+  @if (agencies$ | async; as agencies) {
+  <table class="data-table">
+    <thead>
+      <tr>
+        <th>ID</th>
+        <th>Name</th>
+        <th>Address</th>
+        <th>Daily Limit</th>
+        <th>Agents</th>
+        <th>Countries</th>
+        <th>Status</th>
+      </tr>
+    </thead>
+    <tbody>
+      @for (agency of agencies; track agency.id) {
+      <tr>
+        <td>{{ agency.id }}</td>
+        <td>{{ agency.name }}</td>
+        <td>{{ agency.address || '-' }}</td>
+        <td>{{ agency.dailyLimit || 0 }}</td>
+        <td>{{ agency.agentCodes.length || 0 }}</td>
+        <td>{{ agency.countryIds.length || 0 }}</td>
+        <td>{{ agency.active ? 'Active' : 'Inactive' }}</td>
+      </tr>
+      }
+      @if (agencies.length === 0) {
+      <tr>
+        <td colspan="7" class="placeholder">No agencies found.</td>
+      </tr>
+      }
+    </tbody>
+  </table>
+  } @else {
+    <div class="placeholder">Loading agencies...</div>
+  }
+</section>

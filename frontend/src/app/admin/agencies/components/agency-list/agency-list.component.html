@@ -1,0 +1,64 @@
+<section class="panel">
+  <div class="page-header">
+    <div>
+      <h2>Agencies</h2>
+      <p>Manage the agencies of the Okane Transfert network.</p>
+    </div>
+    <a class="primary-btn" routerLink="/admin/agencies/new">New Agency</a>
+  </div>
+
+  <div class="toolbar">
+    <input type="search" [formControl]="searchControl" placeholder="Search by name" />
+  </div>
+
+  @if (errorMessage) {
+    <div class="alert alert-error">{{ errorMessage }}</div>
+  }
+
+  @if (filteredAgencies$ | async; as agencies) {
+    <table class="data-table">
+      <thead>
+        <tr>
+          <th>ID</th>
+          <th>Name</th>
+          <th>Address</th>
+          <th>Daily Limit</th>
+          <th>Agents</th>
+          <th>Countries</th>
+          <th>Status</th>
+          <th>Actions</th>
+        </tr>
+      </thead>
+      <tbody>
+        @for (agency of agencies; track agency.id) {
+          <tr>
+            <td>{{ agency.id }}</td>
+            <td>{{ agency.name }}</td>
+            <td>{{ agency.address }}</td>
+            <td>{{ agency.dailyLimit || 0 }}</td>
+            <td>{{ agency.agentCodes.length || 0 }}</td>
+            <td>{{ agency.countryIds.length || 0 }}</td>
+            <td>
+              <span class="status" [class.inactive]="!agency.active">
+                {{ agency.active ? 'Active' : 'Inactive' }}
+              </span>
+            </td>
+            <td class="actions-cell">
+              <a class="link-btn" [routerLink]="['/admin/agencies', agency.id]">View</a>
+              <a class="link-btn" [routerLink]="['/admin/agencies/edit', agency.id]">Edit</a>
+              <button class="link-btn" type="button" (click)="toggleStatus(agency)">
+                {{ agency.active ? 'Disable' : 'Enable' }}
+              </button>
+              <button class="danger-btn" type="button" (click)="deleteAgency(agency)">Delete</button>
+            </td>
+          </tr>
+        }
+        @if (agencies.length === 0) {
+          <tr><td colspan="8" class="placeholder">No agencies found.</td></tr>
+        }
+      </tbody>
+    </table>
+  } @else {
+    <div class="placeholder">Loading agencies...</div>
+  }
+</section>

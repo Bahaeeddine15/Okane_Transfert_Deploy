@@ -1,0 +1,50 @@
+<section class="panel">
+  <div class="row">
+    <h2>Fee grids</h2>
+    <a class="primary-btn" routerLink="/admin/fees/create">Create</a>
+  </div>
+
+  <div class="filter-row">
+    <label>Filter by corridor:</label>
+    <select [(ngModel)]="selectedCorridorId" (change)="onFilterChange()">
+      <option [ngValue]="null">All corridors</option>
+      <option *ngFor="let corridor of corridors" [value]="corridor.id">
+        {{ corridor.sourceCountryName }} → {{ corridor.destinationCountryName }}
+      </option>
+    </select>
+  </div>
+
+  <div *ngIf="successMessage" class="alert alert-success">{{ successMessage }}</div>
+  <div *ngIf="error" class="alert alert-error">{{ error }}</div>
+  <div *ngIf="loading" class="alert alert-info">Loading...</div>
+
+  <table class="data-table">
+    <thead>
+      <tr>
+        <th>ID</th>
+        <th>Corridor</th>
+        <th>Amounts</th>
+        <th>Fee %</th>
+        <th>Status</th>
+        <th>Actions</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let f of fees">
+        <td>{{ f.id }}</td>
+        <td>{{ f.sourceCountry }} → {{ f.destinationCountry }}</td>
+        <td>{{ f.amountMin }} - {{ f.amountMax }}</td>
+        <td>{{ f.percentageFee }}</td>
+        <td>
+          <span [class.active]="f.active" [class.inactive]="!f.active">
+            {{ f.active ? 'Active' : 'Inactive' }}
+          </span>
+        </td>
+        <td>
+          <a [routerLink]="['/admin/fees', f.id, 'edit']" class="btn-edit">Edit</a>
+          <button (click)="delete(f.id)" class="btn-delete">Delete</button>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</section>

@@ -1,0 +1,56 @@
+<section class="panel">
+  <div class="page-header">
+    <div>
+      <h2>Cash register details</h2>
+      <p>Cash register summary and assignment details.</p>
+    </div>
+    <a class="link-btn" routerLink="/admin/cash-registers">Back</a>
+  </div>
+
+  @if (errorMessage) {
+    <div class="error">{{ errorMessage }}</div>
+  }
+
+  @if (successMessage) {
+    <div class="success">{{ successMessage }}</div>
+  }
+
+  @if (isLoading) {
+    <div class="placeholder">Loading cash register...</div>
+  } @else if (cashRegister) {
+    <div class="balance-card">
+      <div>
+        <span>Status</span>
+        <strong class="status" [class.closed]="cashRegister.status === 'CLOSED'">{{ cashRegister.status }}</strong>
+      </div>
+      <div>
+        <span>Current balance</span>
+        <strong class="balance">{{ cashRegister.currentBalance | currency:'MAD':'symbol':'1.2-2' }}</strong>
+      </div>
+    </div>
+
+    <div class="summary">
+      <div><span>Agent</span><strong>{{ cashRegister.agentName }}</strong></div>
+      <div><span>Agency</span><strong>{{ cashRegister.agencyName }}</strong></div>
+      <div><span>Opening balance</span><strong>{{ cashRegister.openingBalance | currency:'MAD':'symbol':'1.2-2' }}</strong></div>
+      <div><span>Opened</span><strong>{{ cashRegister.openedAt ? (cashRegister.openedAt | date:'short') : '-' }}</strong></div>
+    </div>
+
+    <div class="actions">
+      @if (cashRegister.agencyActive === false) {
+        <div class="error">The agency of this cash register is inactive. Reactivation is not possible.</div>
+      }
+      @if (cashRegister.status === 'OPEN') {
+        <button type="button" class="danger-btn" (click)="closeCashRegister()" [disabled]="isLoading">
+          {{ isLoading ? 'Closing...' : 'Close this register' }}
+        </button>
+      } @else {
+        <button type="button" class="primary-btn" (click)="reopenCashRegister()"
+          [disabled]="isLoading || cashRegister.agencyActive === false"
+          [title]="cashRegister.agencyActive === false ? 'Inactive agency: cannot reopen' : ''">
+          {{ isLoading ? 'Reopening...' : 'Reopen this register' }}
+        </button>
+      }
+    </div>
+  }
+</section>

@@ -1,0 +1,100 @@
+<section class="panel">
+  <div class="page-header">
+    <div>
+      <h2>{{ isEditMode ? 'Edit agent' : 'New agent' }}</h2>
+      <p>Fill in the agent information and agency assignment.</p>
+    </div>
+    <a class="secondary-btn" routerLink="/admin/agents">Back</a>
+  </div>
+
+  @if (isLoading) {
+  <div class="placeholder">Loading agent...</div>
+  }
+
+  @if (!isLoading) {
+  <form class="agent-form" [formGroup]="form" (ngSubmit)="submit()">
+    <label>
+      <span>First name</span>
+      <input type="text" formControlName="firstName" />
+      @if (form.controls.firstName.touched && form.controls.firstName.invalid) {
+      <small>First name is required.</small>
+      }
+    </label>
+
+    <label>
+      <span>Last name</span>
+      <input type="text" formControlName="lastName" />
+      @if (form.controls.lastName.touched && form.controls.lastName.invalid) {
+      <small>Last name is required.</small>
+      }
+    </label>
+
+    <label>
+      <span>Email</span>
+      <input type="email" formControlName="email" />
+      @if (form.controls.email.touched && form.controls.email.invalid) {
+      <small>A valid email is required.</small>
+      }
+    </label>
+
+    <label>
+      <span>Phone</span>
+      <input type="tel" formControlName="phone" />
+      @if (form.controls.phone.touched && form.controls.phone.invalid) {
+      <small>Phone number is required.</small>
+      }
+    </label>
+
+    <label>
+      <span>Agent code</span>
+      <input type="text" formControlName="agentCode" placeholder="AG-0001" />
+      @if (form.controls.agentCode.touched && form.controls.agentCode.invalid) {
+      <small>Agent code is required.</small>
+      }
+    </label>
+
+    <label>
+      <span>Agency</span>
+      <select formControlName="agencyId">
+        <option [ngValue]="0">Select an agency</option>
+        @if (agencies$ | async; as agencies) {
+        @for (agency of agencies; track agency.id) {
+        <option [ngValue]="agency.id">
+          {{ agency.name }}
+        </option>
+        }
+        }
+      </select>
+      @if (form.controls.agencyId.touched && form.controls.agencyId.invalid) {
+      <small>Agency is required.</small>
+      }
+    </label>
+
+    @if (!isEditMode) {
+    <label>
+      <span>Password</span>
+      <input type="password" formControlName="password" />
+      @if (form.controls.password.touched && form.controls.password.invalid) {
+      <small>Minimum 6 characters.</small>
+      }
+    </label>
+    }
+
+    <label class="checkbox-row">
+      <input type="checkbox" formControlName="status" />
+      <span>Active agent</span>
+    </label>
+
+    @if (errorMessage) {
+    <div class="error">{{ errorMessage }}</div>
+    }
+
+    <div class="actions">
+      <a class="secondary-btn" routerLink="/admin/agents">Cancel</a>
+      <button class="primary-btn" type="submit" [disabled]="isSubmitting">
+        {{ isSubmitting ? 'Saving...' : 'Save' }}
+      </button>
+    </div>
+  </form>
+  }
+</section>

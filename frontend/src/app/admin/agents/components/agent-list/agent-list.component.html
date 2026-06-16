@@ -1,0 +1,69 @@
+<section class="panel">
+  <div class="page-header">
+    <div>
+      <h2>Agents</h2>
+      <p>Manage agents and their agency assignments.</p>
+    </div>
+    <a class="primary-btn" routerLink="/admin/agents/new">New agent</a>
+  </div>
+
+  <div class="toolbar">
+    <input type="search" [formControl]="searchControl" placeholder="Search by name or email" />
+  </div>
+
+  @if (errorMessage) {
+  <div class="error">{{ errorMessage }}</div>
+  }
+
+  @if (filteredAgents$ | async; as agents) {
+  <table class="data-table">
+    <thead>
+      <tr>
+        <th>ID</th>
+        <th>Code</th>
+        <th>Name</th>
+        <th>Email</th>
+        <th>Phone</th>
+        <th>Agency</th>
+        <th>Status</th>
+        <th>Actions</th>
+      </tr>
+    </thead>
+    <tbody>
+      @for (agent of agents; track agent.id) {
+      <tr>
+        <td>{{ agent.id }}</td>
+        <td>{{ agent.agentCode || '-' }}</td>
+        <td>{{ agent.firstName }} {{ agent.lastName }}</td>
+        <td>{{ agent.email }}</td>
+        <td>{{ agent.phone || '-' }}</td>
+        <td>{{ agent.agencyName || agent.agencyId || '-' }}</td>
+        <td>
+          <span class="status" [class.inactive]="!agent.status">
+            {{ agent.status ? 'Active' : 'Inactive' }}
+          </span>
+        </td>
+        <td class="actions-cell">
+          <a class="link-btn" [routerLink]="['/admin/agents', agent.id]">View</a>
+          <a class="link-btn" [routerLink]="['/admin/agents/edit', agent.id]">Edit</a>
+          <button class="link-btn" type="button"
+            (click)="toggleStatus(agent)"
+            [disabled]="!agent.status && agent.agencyActive === false"
+            [title]="!agent.status && agent.agencyActive === false ? 'Inactive agency' : ''">
+            {{ agent.status ? 'Disable' : 'Enable' }}
+          </button>
+          <button class="danger-btn" type="button" (click)="deleteAgent(agent)">Delete</button>
+        </td>
+      </tr>
+      }
+      @if (agents.length === 0) {
+      <tr>
+        <td colspan="8" class="placeholder">No agents found.</td>
+      </tr>
+      }
+    </tbody>
+  </table>
+  } @else {
+    <div class="placeholder">Loading agents...</div>
+  }
+</section>

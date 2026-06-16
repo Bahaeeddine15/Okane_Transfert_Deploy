@@ -1,0 +1,11 @@
+<section class="panel">
+  <div class="row">
+    <h2>Edit Fee Grid</h2>
+  </div>
+  <div *ngIf="successMessage" class="alert alert-success">{{ successMessage }}</div>
+  <div *ngIf="error" class="alert alert-error">{{ error }}</div>
+  <ng-container *ngIf="fee && !loading">
+    <app-fees-form [fee]="fee" (submit)="onSubmit($event)"></app-fees-form>
+  </ng-container>
+  <div *ngIf="loading" class="alert alert-info">Loading...</div>
+</section>

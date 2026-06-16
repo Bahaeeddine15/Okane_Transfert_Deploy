@@ -1,0 +1,57 @@
+<section class="panel">
+  <div class="page-header">
+    <div>
+      <h2>Agent details</h2>
+      <p>Information, status, and agency assignment.</p>
+    </div>
+    <a class="secondary-btn" routerLink="/admin/agents">Back</a>
+  </div>
+
+  @if (isLoading) {
+  <div class="placeholder">Loading agent...</div>
+  }
+  @if (errorMessage) {
+  <div class="error">{{ errorMessage }}</div>
+  }
+
+  @if (agent; as item) {
+    <dl class="details-grid">
+      <div>
+        <dt>ID</dt>
+        <dd>{{ item.id }}</dd>
+      </div>
+      <div>
+        <dt>Full name</dt>
+        <dd>{{ item.firstName }} {{ item.lastName }}</dd>
+      </div>
+      <div>
+        <dt>Agent code</dt>
+        <dd>{{ item.agentCode || '-' }}</dd>
+      </div>
+      <div>
+        <dt>Email</dt>
+        <dd>{{ item.email }}</dd>
+      </div>
+      <div>
+        <dt>Phone</dt>
+        <dd>{{ item.phone || '-' }}</dd>
+      </div>
+      <div>
+        <dt>Agency</dt>
+        <dd>{{ item.agencyName || item.agencyId || '-' }}</dd>
+      </div>
+      <div>
+        <dt>Status</dt>
+        <dd>{{ item.status ? 'Active' : 'Inactive' }}</dd>
+      </div>
+    </dl>
+
+    <div class="actions">
+      <a class="primary-btn" [routerLink]="['/admin/agents/edit', item.id]">Edit</a>
+      <button class="secondary-btn" type="button" (click)="toggleStatus()">
+        {{ item.status ? 'Disable' : 'Enable' }}
+      </button>
+      <button class="danger-btn" type="button" (click)="deleteAgent()">Delete</button>
+    </div>
+  }
+</section>

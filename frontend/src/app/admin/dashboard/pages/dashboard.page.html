@@ -1,0 +1,89 @@
+@if (vm$ | async; as vm) {
+  <div class="page-header">
+    <div>
+      <h2>Admin Dashboard</h2>
+      <p>Overview of Okane Transfert activity.</p>
+    </div>
+  </div>
+
+  <div class="stats-grid">
+    <div class="stat-card">
+      <span>Total Agencies</span>
+      <strong>{{ vm.totalAgencies }}</strong>
+    </div>
+    <div class="stat-card">
+      <span>Total Agents</span>
+      <strong>{{ vm.totalAgents }}</strong>
+    </div>
+    <div class="stat-card">
+      <span>Total Transfers</span>
+      <strong>{{ vm.totalTransfers }}</strong>
+    </div>
+    <div class="stat-card">
+      <span>Total Revenue</span>
+      <strong>{{ vm.totalRevenue | number:'1.0-2' }}</strong>
+    </div>
+  </div>
+
+  <div class="dashboard-grid">
+    <div class="panel">
+      <h3>Recent transfers</h3>
+      <table>
+        <thead>
+          <tr>
+            <th>Ref</th>
+            <th>Client</th>
+            <th>Amount</th>
+            <th>Status</th>
+          </tr>
+        </thead>
+        <tbody>
+          @for (transfer of vm.recentTransfers; track transfer.id) {
+          <tr>
+            <td>{{ transfer.payoutCode || transfer.id }}</td>
+            <td>{{ transfer.senderName || '-' }}</td>
+            <td>{{ transfer.sentAmount || 0 }} {{ transfer.sendingCurrency || '' }}</td>
+            <td><span class="badge">{{ transfer.status || '-' }}</span></td>
+          </tr>
+          }
+          @if (vm.recentTransfers.length === 0) {
+          <tr>
+            <td colspan="4" class="placeholder">No transfers found.</td>
+          </tr>
+          }
+        </tbody>
+      </table>
+    </div>
+
+    <div class="panel">
+      <h3>Recent audit log</h3>
+      <table>
+        <thead>
+          <tr>
+            <th>Action</th>
+            <th>Agent</th>
+            <th>Date</th>
+          </tr>
+        </thead>
+        <tbody>
+          @for (audit of vm.recentAudits; track audit.id) {
+          <tr>
+            <td>{{ audit.action }}</td>
+            <td>{{ audit.agentCode || '-' }}</td>
+            <td>{{ audit.timeStamp | date:'short' }}</td>
+          </tr>
+          }
+          @if (vm.recentAudits.length === 0) {
+          <tr>
+            <td colspan="3" class="placeholder">No audit entries found.</td>
+          </tr>
+          }
+        </tbody>
+      </table>
+    </div>
+  </div>
+} @else {
+  <div class="panel">
+    <div class="placeholder">Loading dashboard...</div>
+  </div>
+}

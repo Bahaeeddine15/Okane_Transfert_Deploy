@@ -1,0 +1,8 @@
+<section class="panel">
+  <div class="row">
+    <h2>Create Fee Grid</h2>
+  </div>
+  <div *ngIf="successMessage" class="alert alert-success">{{ successMessage }}</div>
+  <div *ngIf="error" class="alert alert-error">{{ error }}</div>
+  <app-fees-form (submit)="onSubmit($event)"></app-fees-form>
+</section>

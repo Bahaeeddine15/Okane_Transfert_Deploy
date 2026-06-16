@@ -1,0 +1,54 @@
+.panel { padding: 20px; background: #fff; border-radius: 12px; box-shadow: 0 8px 20px rgba(15,23,42,0.06); }
+.row { display:flex; align-items:center; justify-content:space-between; gap:12px; margin-bottom:14px }
+.primary-btn { background:#2563eb; color:#fff; padding:8px 12px; border-radius:10px; text-decoration:none; font-weight:700 }
+.primary-btn:hover { filter:brightness(0.95) }
+.data-table { width:100%; border-collapse:collapse; margin-top:8px }
+.data-table thead th { text-align:left; font-weight:700; padding:10px 12px; border-bottom:1px solid #eef2f7; color:#0f172a }
+.data-table tbody td { padding:10px 12px; border-bottom:1px solid #f1f5f9; color:#334155 }
+.placeholder { color:#64748b; padding:12px; border-radius:8px; background:#f8fafc }
+
+.filter-row {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 14px;
+  padding: 12px 16px;
+  background: #f8fafc;
+  border-radius: 8px;
+  border: 1px solid #e2e8f0;
+}
+
+.filter-row label {
+  font-weight: 600;
+  color: #334155;
+  font-size: 14px;
+}
+
+.filter-row select {
+  padding: 8px 12px;
+  border-radius: 8px;
+  border: 1px solid #cbd5e1;
+  background: #fff;
+  font-size: 14px;
+  min-width: 250px;
+  color: #0f172a;
+}
+
+.filter-row select:focus {
+  outline: none;
+  border-color: #2563eb;
+  box-shadow: 0 0 0 3px rgba(37,99,235,0.1);
+}
+
+.active { color: green; font-weight: bold; }
+.inactive { color: red; font-weight: bold; }
+
+.btn-edit { color: #2563eb; text-decoration: none; font-weight: 600; margin-right: 8px; }
+.btn-delete { background: #dc2626; color: white; border: none; padding: 6px 12px; border-radius: 8px; cursor: pointer; font-weight: 600; }
+.btn-delete:hover { background: #b91c1c; }
+
+@media (max-width: 640px) {
+	.data-table thead { display:none }
+	.data-table tbody td { display:block; width:100% }
+	.data-table tbody tr { display:block; margin-bottom:10px; border:1px solid #eef2f7; border-radius:8px; padding:8px }
+}
