@@ -1,0 +1,75 @@
+<section class="panel">
+  <div class="page-header">
+    <div>
+      <h2>Reports</h2>
+      <p>Analysis of transfers, revenue, commissions, and withdrawals.</p>
+    </div>
+  </div>
+
+  @if (report$ | async; as report) {
+    <form class="filters" [formGroup]="filtersForm">
+      <label>
+        <span>From</span>
+        <input type="date" formControlName="startDate" />
+      </label>
+
+      <label>
+        <span>To</span>
+        <input type="date" formControlName="endDate" />
+      </label>
+
+      <label>
+        <span>Agency</span>
+        <select formControlName="agencyId">
+          <option [ngValue]="0">All agencies</option>
+          @for (agency of report.agencies; track agency.id) {
+          <option [ngValue]="agency.id">
+            {{ agency.name }}
+          </option>
+          }
+        </select>
+      </label>
+
+      <label>
+        <span>Status</span>
+        <select formControlName="status">
+          <option value="">All statuses</option>
+          <option value="PENDING">PENDING</option>
+          <option value="PAID">PAID</option>
+          <option value="EXPIRED">EXPIRED</option>
+          <option value="CANCELED">CANCELED</option>
+        </select>
+      </label>
+
+      <button class="secondary-btn" type="button" (click)="resetFilters()">Reset</button>
+      <button class="primary-btn" type="button" (click)="generatePdf(report)">Generate PDF</button>
+    </form>
+
+    <div class="summary-grid">
+      <div class="summary-card">
+        <span>Total transfers</span>
+        <strong>{{ report.summary.totalTransfers }}</strong>
+      </div>
+      <div class="summary-card">
+        <span>Total revenue</span>
+        <strong>{{ report.summary.totalRevenue | number:'1.0-2' }}</strong>
+      </div>
+      <div class="summary-card">
+        <span>Total commissions</span>
+        <strong>{{ report.summary.totalCommissions | number:'1.0-2' }}</strong>
+      </div>
+      <div class="summary-card">
+        <span>Total withdrawals</span>
+        <strong>{{ report.summary.totalWithdrawals | number:'1.0-2' }}</strong>
+      </div>
+    </div>
+
+    @if (report.rows.length === 0) {
+    <div class="placeholder">
+      No results for these filters.
+    </div>
+    }
+  } @else {
+    <div class="placeholder">Loading reports...</div>
+  }
+</section>
