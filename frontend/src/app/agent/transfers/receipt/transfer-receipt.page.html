@@ -1,0 +1,66 @@
+<section class="panel">
+  <div class="panel-header">
+    <h2>Transfer Receipt</h2>
+    <a routerLink="/agent/transfers/history" class="btn btn-secondary">History</a>
+  </div>
+
+  <div *ngIf="errorMessage"   class="alert alert-error">{{ errorMessage }}</div>
+  <div *ngIf="successMessage" class="alert alert-success">{{ successMessage }}</div>
+
+  <div *ngIf="!transfer && !errorMessage" class="loading-wrap">
+    <div class="spinner"></div>
+    <p>Loading receipt...</p>
+  </div>
+
+  @if (transfer) {
+    <div class="receipt">
+      <div class="receipt-card">
+        <span>Sender</span>
+        <strong>{{ transfer.senderName }}</strong>
+        <small>CIN: {{ transfer.senderCin }}</small>
+      </div>
+      <div class="receipt-card">
+        <span>Beneficiary</span>
+        <strong>{{ transfer.beneficiaryName }}</strong>
+        <small>CIN: {{ transfer.beneficiaryCin }}</small>
+      </div>
+      <div class="receipt-card">
+        <span>Payout Code</span>
+        <strong>{{ transfer.payoutCode }}</strong>
+      </div>
+      <div class="receipt-card">
+        <span>Sent Amount</span>
+        <strong>{{ transfer.sentAmount | number:'1.2-2' }} {{ transfer.sendingCurrency | uppercase }}</strong>
+      </div>
+      <div class="receipt-card">
+        <span>Exchange Rate</span>
+        <strong>1 {{ transfer.sendingCurrency | uppercase }} = {{ transfer.appliedRate | number:'1.4-4' }} {{ transfer.receivedCurrency | uppercase }}</strong>
+      </div>
+      <div class="receipt-card">
+        <span>Fees</span>
+        <strong>{{ transfer.cost | number:'1.2-2' }} {{ transfer.sendingCurrency | uppercase }}</strong>
+      </div>
+      <div class="receipt-card">
+        <span>Received Amount</span>
+        <strong>{{ transfer.receivedAmount | number:'1.2-2' }} {{ transfer.receivedCurrency | uppercase }}</strong>
+      </div>
+      <div class="receipt-card">
+        <span>Sent Date</span>
+        <strong>{{ formatTransferDate(transfer.createdAt) }}</strong>
+      </div>
+      <div class="receipt-card">
+        <span>Expires On</span>
+        <strong>{{ formatTransferDate(transfer.expiredAt) }}</strong>
+      </div>
+      <div class="receipt-card">
+        <span>Corridor</span>
+        <strong>{{ transfer.corridorLabel || '—' }}</strong>
+      </div>
+    </div>
+
+    <div class="btn-row">
+      <button class="btn btn-primary"   type="button" (click)="printReceipt()">Print Receipt</button>
+      <button class="btn btn-secondary" type="button" (click)="downloadPdf()">Download PDF</button>
+    </div>
+  }
+</section>

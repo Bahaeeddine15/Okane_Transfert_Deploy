@@ -1,0 +1,43 @@
+<div class="page-header">
+  <h2>Agent Dashboard</h2>
+  <p>Welcome {{ name }} — overview of today's transfers and cash activity.</p>
+</div>
+
+<div *ngIf="loading" class="loading-wrap">
+  <div class="spinner"></div>
+  <p>Loading dashboard...</p>
+</div>
+
+<div *ngIf="error && !loading" class="alert alert-error">{{ error }}</div>
+
+<ng-container *ngIf="!loading">
+  <div class="stats-grid">
+    <div class="stat-card" *ngFor="let stat of stats">
+      <span>{{ stat.label }}</span>
+      <strong>{{ stat.value }}</strong>
+    </div>
+  </div>
+
+  <div class="grid-two">
+    <section class="panel">
+      <h3 style="margin:0 0 14px">Recent Transfers</h3>
+      <div class="transfer-row" *ngFor="let t of recentTransfers">
+        <div>
+          <strong>{{ t.payoutCode }}</strong>
+          <p>{{ t.senderName }} · {{ t.corridorLabel || 'Transfer' }}</p>
+          <small>{{ t.sentAmount | number:'1.2-2' }} {{ t.sendingCurrency }}</small>
+        </div>
+        <span class="badge" [ngClass]="'badge-' + t.status.toLowerCase()">{{ t.status }}</span>
+      </div>
+      <p *ngIf="recentTransfers.length === 0" class="state-msg">No transfers yet.</p>
+    </section>
+
+    <section class="panel">
+      <h3 style="margin:0 0 14px">Quick Actions</h3>
+      <a class="action-link" routerLink="/agent/transfers/create">Create Transfer</a>
+      <a class="action-link" routerLink="/agent/transfers/receive">Pay Transfer</a>
+      <a class="action-link" routerLink="/agent/transfers/history">Transfer History</a>
+      <a class="action-link" routerLink="/agent/cash">Cash Register</a>
+    </section>
+  </div>
+</ng-container>

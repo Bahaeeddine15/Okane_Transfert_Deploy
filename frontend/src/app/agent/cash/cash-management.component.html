@@ -1,0 +1,47 @@
+<section class="panel">
+  <div class="panel-header">
+    <div>
+      <h2>Cash Register</h2>
+      <p>Balance and status of your cash register.</p>
+    </div>
+    <div class="actions" *ngIf="cashRegister && !loading">
+      <button class="btn btn-danger"  (click)="closeCash()" [disabled]="isClosed  || actionLoading">
+        {{ actionLoading && !isClosed ? '...' : 'Close Register' }}
+      </button>
+      <button class="btn btn-success" (click)="openCash()"  [disabled]="!isClosed || actionLoading">
+        {{ actionLoading && isClosed  ? '...' : 'Open Register' }}
+      </button>
+    </div>
+  </div>
+
+  <div *ngIf="successMessage" class="alert alert-success">{{ successMessage }}</div>
+  <div *ngIf="errorMessage"   class="alert alert-error">{{ errorMessage }}</div>
+
+  <div *ngIf="loading" class="loading-wrap">
+    <div class="spinner"></div>
+    <p>Loading cash register...</p>
+  </div>
+
+  <div *ngIf="!loading && !cashRegister && !errorMessage" class="state-msg">
+    No cash register found for your account.
+  </div>
+
+  <div class="summary" *ngIf="!loading && cashRegister">
+    <div class="card">
+      <span>Opening Balance</span>
+      <strong>{{ cashRegister.openingBalance | number:'1.2-2' }}</strong>
+    </div>
+    <div class="card highlight">
+      <span>Current Balance</span>
+      <strong>{{ balance | number:'1.2-2' }}</strong>
+    </div>
+    <div class="card">
+      <span>Status</span>
+      <strong>
+        <span [class]="isClosed ? 'badge badge-closed' : 'badge badge-open'">
+          {{ isClosed ? 'Closed' : 'Open' }}
+        </span>
+      </strong>
+    </div>
+  </div>
+</section>

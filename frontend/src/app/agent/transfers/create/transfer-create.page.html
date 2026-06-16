@@ -1,0 +1,99 @@
+<section class="panel">
+  <div class="panel-header">
+    <h2>Create Transfer</h2>
+  </div>
+
+  <div *ngIf="errorMessage"   class="alert alert-error">{{ errorMessage }}</div>
+  <div *ngIf="successMessage" class="alert alert-success">{{ successMessage }}</div>
+
+  <div class="form-grid">
+
+    <div class="field">
+      <label>Sender CIN</label>
+      <input type="text" [(ngModel)]="form.senderCin" placeholder="Enter sender CIN">
+    </div>
+
+    <div class="field">
+      <label>Beneficiary CIN</label>
+      <input type="text" [(ngModel)]="form.beneficiaryCin" placeholder="Enter beneficiary CIN">
+    </div>
+
+    <div class="field">
+      <label>Amount</label>
+      <input type="number" [(ngModel)]="form.sentAmount" placeholder="0.00" min="0">
+    </div>
+
+    <div class="field">
+      <label>Sending Currency</label>
+      <div class="currency-select">
+        <button type="button" class="cs-trigger" (click)="sendingOpen = !sendingOpen">
+          {{ labelOf(form.sendingCurrencyId) }}
+          <svg width="12" height="12" viewBox="0 0 12 12"><path d="M2 4l4 4 4-4" stroke="currentColor" stroke-width="1.5" fill="none" stroke-linecap="round"/></svg>
+        </button>
+        @if (sendingOpen) {
+          <div class="cs-dropdown">
+            <input class="cs-search" type="text" [(ngModel)]="sendingSearch" placeholder="Search...">
+            <ul>
+              @for (c of filteredSending; track c.id) {
+                <li (mousedown)="selectSending(c)" [class.selected]="form.sendingCurrencyId === c.id">
+                  <strong>{{ c.code.toUpperCase() }}</strong> {{ c.name }}
+                </li>
+              }
+              @empty { <li class="no-result">No results</li> }
+            </ul>
+          </div>
+        }
+      </div>
+    </div>
+
+    <div class="field">
+      <label>Receiving Currency</label>
+      <div class="currency-select">
+        <button type="button" class="cs-trigger" (click)="receivingOpen = !receivingOpen">
+          {{ labelOf(form.receivedCurrencyId) }}
+          <svg width="12" height="12" viewBox="0 0 12 12"><path d="M2 4l4 4 4-4" stroke="currentColor" stroke-width="1.5" fill="none" stroke-linecap="round"/></svg>
+        </button>
+        @if (receivingOpen) {
+          <div class="cs-dropdown">
+            <input class="cs-search" type="text" [(ngModel)]="receivingSearch" placeholder="Search...">
+            <ul>
+              @for (c of filteredReceiving; track c.id) {
+                <li (mousedown)="selectReceiving(c)" [class.selected]="form.receivedCurrencyId === c.id">
+                  <strong>{{ c.code.toUpperCase() }}</strong> {{ c.name }}
+                </li>
+              }
+              @empty { <li class="no-result">No results</li> }
+            </ul>
+          </div>
+        }
+      </div>
+    </div>
+
+    <div class="field">
+      <label>Corridor</label>
+      <select [(ngModel)]="form.corridorId">
+        <option [ngValue]="null" disabled>Select corridor</option>
+        @for (corridor of corridors; track corridor.id) {
+          <option [ngValue]="corridor.id">
+            {{ corridor.sourceCountryName }} → {{ corridor.destinationCountryName }}
+          </option>
+        }
+      </select>
+    </div>
+
+    <div class="field">
+      <label>Payout Method</label>
+      <select [(ngModel)]="form.payoutMethod">
+        <option value="CASH">Cash</option>
+        <option value="MOBILE_MONEY">Mobile Money</option>
+      </select>
+    </div>
+
+  </div>
+
+  <div class="submit-row">
+    <button class="btn btn-primary" (click)="submit()" [disabled]="loading">
+      {{ loading ? 'Creating...' : 'Create Transfer' }}
+    </button>
+  </div>
+</section>

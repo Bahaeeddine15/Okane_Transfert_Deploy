@@ -1,0 +1,68 @@
+<section class="panel">
+  <div class="panel-header">
+    <h2>Transfer History</h2>
+  </div>
+
+  <div *ngIf="successMessage" class="alert alert-success">{{ successMessage }}</div>
+  <div *ngIf="errorMessage"   class="alert alert-error">{{ errorMessage }}</div>
+
+  <div *ngIf="loading" class="loading-wrap">
+    <div class="spinner"></div>
+    <p>Loading transfers...</p>
+  </div>
+
+  <ng-container *ngIf="!loading">
+    <div class="filter-bar" *ngIf="transfers.length > 0">
+      <div class="status-tabs">
+        <button
+          *ngFor="let opt of statusOptions"
+          type="button"
+          class="filter-btn"
+          [class.active]="statusFilter === opt.value"
+          (click)="setStatusFilter(opt.value)">
+          {{ opt.label }}
+        </button>
+      </div>
+      <input class="search-input" type="search" [(ngModel)]="searchTerm" placeholder="Search by code…">
+    </div>
+
+    <p *ngIf="transfers.length === 0" class="state-msg">No transfers found.</p>
+    <p *ngIf="transfers.length > 0 && filteredTransfers.length === 0" class="state-msg">No results match your filter.</p>
+
+    <div *ngIf="filteredTransfers.length > 0" class="table-wrapper">
+      <table class="table">
+        <thead>
+          <tr>
+            <th>Code</th>
+            <th>Sender</th>
+            <th>Beneficiary</th>
+            <th>Amount</th>
+            <th>Cost</th>
+            <th>Status</th>
+            <th>Date</th>
+            <th>Actions</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let t of filteredTransfers; trackBy: trackByIndex">
+            <td>{{ t.payoutCode }}</td>
+            <td>{{ t.senderName }}</td>
+            <td>{{ t.beneficiaryName }}</td>
+            <td>{{ t.sentAmount | number:'1.2-2' }} {{ t.sendingCurrency }}</td>
+            <td>{{ t.cost | number:'1.2-2' }}</td>
+            <td>
+              <span class="badge" [ngClass]="'badge-' + t.status.toLowerCase()">{{ t.status }}</span>
+            </td>
+            <td>{{ formatTransferDate(t.createdAt) }}</td>
+            <td class="actions">
+              @if (t.status === 'PENDING') {
+                <button class="btn btn-danger" style="padding:6px 12px;font-size:13px" (click)="cancelTransfer(t.id)">Cancel</button>
+              }
+              <a class="btn btn-secondary" style="padding:6px 12px;font-size:13px" [routerLink]="['/agent/transfers/receipt', t.payoutCode]">Details</a>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </ng-container>
+</section>

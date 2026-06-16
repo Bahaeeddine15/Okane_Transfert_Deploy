@@ -1,0 +1,75 @@
+:host { display: block; }
+
+/* Currency searchable dropdown */
+.currency-select { position: relative; }
+
+.cs-trigger {
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 8px;
+  background: var(--surface);
+  color: var(--text);
+  border: var(--border);
+  border-radius: var(--radius);
+  padding: 11px 13px;
+  font-size: 14px;
+  font-weight: 500;
+  cursor: pointer;
+  text-align: left;
+  transition: border-color .15s, box-shadow .15s;
+}
+.cs-trigger:hover, .cs-trigger:focus {
+  border-color: var(--primary);
+  box-shadow: 0 0 0 3px rgba(37,99,235,.13);
+  outline: none;
+}
+
+.cs-dropdown {
+  position: absolute;
+  top: calc(100% + 4px);
+  left: 0; right: 0;
+  background: var(--surface);
+  border: var(--border);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow);
+  z-index: 200;
+  overflow: hidden;
+}
+
+.cs-search {
+  width: 100%;
+  box-sizing: border-box;
+  border: none;
+  border-bottom: var(--border);
+  border-radius: 0;
+  padding: 10px 13px;
+  font-size: 13px;
+  outline: none;
+}
+
+.cs-dropdown ul {
+  list-style: none;
+  margin: 0;
+  padding: 4px 0;
+  max-height: 200px;
+  overflow-y: auto;
+}
+.cs-dropdown li {
+  padding: 9px 13px;
+  font-size: 13px;
+  cursor: pointer;
+  color: var(--text);
+  transition: background .1s;
+}
+.cs-dropdown li:hover, .cs-dropdown li.selected {
+  background: #eff6ff;
+  color: var(--primary);
+}
+.cs-dropdown li strong { margin-right: 6px; }
+
+.no-result { color: var(--muted); cursor: default !important; }
+.no-result:hover { background: transparent !important; }
+
+.submit-row { margin-top: 20px; }

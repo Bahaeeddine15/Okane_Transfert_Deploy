@@ -1,0 +1,30 @@
+<section class="panel">
+  <div class="panel-header">
+    <h2>Pay Transfer</h2>
+    <a routerLink="/agent/dashboard" class="btn btn-secondary">Back</a>
+  </div>
+
+  <div *ngIf="errorMessage"   class="alert alert-error">{{ errorMessage }}</div>
+
+  <div class="pay-form">
+    <div class="field">
+      <label>Payout Code</label>
+      <input [(ngModel)]="payoutCode" placeholder="Enter payout code">
+    </div>
+    <div style="margin-top:14px">
+      <button class="btn btn-primary" type="button" (click)="pay()" [disabled]="loading">
+        {{ loading ? 'Processing...' : 'Pay Transfer' }}
+      </button>
+    </div>
+  </div>
+
+  @if (successMessage && paidTransfer) {
+    <div class="result-card">
+      <h3>{{ successMessage }}</h3>
+      <p><strong>Beneficiary:</strong> {{ paidTransfer.beneficiaryName }}</p>
+      <p><strong>Payout Code:</strong> {{ paidTransfer.payoutCode }}</p>
+      <p><strong>Amount Paid:</strong> {{ paidTransfer.receivedAmount | number:'1.2-2' }} {{ paidTransfer.receivedCurrency }}</p>
+      <p><strong>Payment Date:</strong> {{ formatTransferDate(paidTransfer.paidAt) }}</p>
+    </div>
+  }
+</section>

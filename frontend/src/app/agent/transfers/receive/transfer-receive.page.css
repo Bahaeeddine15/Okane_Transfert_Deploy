@@ -1,0 +1,14 @@
+:host { display: block; }
+
+.pay-form { max-width: 420px; margin-top: 8px; }
+.pay-form label { font-size: 13px; color: var(--muted); font-weight: 500; }
+
+.result-card {
+  margin-top: 18px;
+  background: var(--success-bg);
+  color: var(--success-fg);
+  border-radius: var(--radius);
+  padding: 18px;
+}
+.result-card h3 { margin: 0 0 12px; }
+.result-card p  { margin: 6px 0; font-size: 14px; }
