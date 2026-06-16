@@ -1,0 +1,30 @@
+<header class="topbar">
+  <div class="topbar-left">
+    <button class="icon-btn" type="button" aria-label="Toggle sidebar" (click)="toggleSidebar()">
+      <span class="menu-icon" aria-hidden="true"></span>
+    </button>
+
+    <div class="profile">
+      <div class="avatar">
+        {{ avatarText }}
+      </div>
+
+      <div>
+        <strong>{{ userTitle }}</strong>
+        <small>{{ userSubtitle }}</small>
+      </div>
+    </div>
+  </div>
+
+  @if (showSearch) {
+  <div class="topbar-center">
+    <input type="text" [placeholder]="searchPlaceholder" />
+  </div>
+  }
+
+  <div class="topbar-right">
+    <button type="button" class="logout-btn" (click)="logout()">
+      Logout
+    </button>
+  </div>
+</header>

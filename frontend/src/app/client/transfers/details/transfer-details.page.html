@@ -1,0 +1,98 @@
+<section class="panel">
+
+  @if (!transfer) {
+    <div class="loading-container">
+      <div class="spinner"></div>
+      <p>Loading details...</p>
+    </div>
+  } @else {
+    <div class="header">
+      <h2>Transfer details</h2>
+      <span class="status-badge" [class]="transfer.status.toLowerCase()">
+        {{ transfer.status === 'PENDING' ? 'Pending' : transfer.status === 'PAID' ? 'Paid' : transfer.status === 'EXPIRED' ? 'Expired' : 'Canceled' }}
+      </span>
+    </div>
+
+    <div class="detail-card">
+      <div class="detail-row">
+        <span class="label">Payout code</span>
+        <span class="value code">{{ transfer.payoutCode }}</span>
+      </div>
+    </div>
+
+    <div class="detail-grid">
+      <div class="detail-card">
+        <h3>Sender</h3>
+        <div class="detail-row">
+          <span class="label">Name</span>
+          <span class="value">{{ transfer.senderName }}</span>
+        </div>
+        <div class="detail-row">
+          <span class="label">CIN</span>
+          <span class="value">{{ transfer.senderCin }}</span>
+        </div>
+      </div>
+
+      <div class="detail-card">
+        <h3>Beneficiary</h3>
+        <div class="detail-row">
+          <span class="label">Name</span>
+          <span class="value">{{ transfer.beneficiaryName }}</span>
+        </div>
+        <div class="detail-row">
+          <span class="label">CIN</span>
+          <span class="value">{{ transfer.beneficiaryCin }}</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="detail-card">
+      <h3>Amounts</h3>
+      <div class="amounts-grid">
+        <div class="amount-box">
+          <span class="amount-label">Sent</span>
+          <span class="amount-value">{{ transfer.sentAmount }} {{ transfer.sendingCurrency }}</span>
+        </div>
+        <div class="amount-box">
+          <span class="amount-label">Fees</span>
+          <span class="amount-value cost">{{ transfer.cost }} {{ transfer.sendingCurrency }}</span>
+        </div>
+        <div class="amount-box highlight">
+          <span class="amount-label">Received</span>
+          <span class="amount-value">{{ transfer.receivedAmount }} {{ transfer.receivedCurrency }}</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="detail-card">
+      <h3>Information</h3>
+      <div class="detail-row">
+        <span class="label">Corridor</span>
+        <span class="value">{{ transfer.corridorLabel || '-' }}</span>
+      </div>
+      <div class="detail-row">
+        <span class="label">Payout method</span>
+        <span class="value">{{ transfer.payoutMethod === 'CASH' ? 'Cash' : 'Mobile Money' }}</span>
+      </div>
+      <div class="detail-row">
+        <span class="label">Agent</span>
+        <span class="value">{{ transfer.agentName }}</span>
+      </div>
+      <div class="detail-row">
+        <span class="label">Sent date</span>
+        <span class="value">{{ formatTransferDate(transfer.createdAt) }}</span>
+      </div>
+      @if (transfer.paidAt) {
+        <div class="detail-row">
+          <span class="label">Payment date</span>
+          <span class="value">{{ formatTransferDate(transfer.paidAt) }}</span>
+        </div>
+      }
+      <div class="detail-row">
+        <span class="label">Expires on</span>
+        <span class="value">{{ formatTransferDate(transfer.expiredAt) }}</span>
+      </div>
+    </div>
+  }
+
+</section>

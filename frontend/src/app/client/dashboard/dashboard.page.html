@@ -1,0 +1,89 @@
+<div class="page-header">
+  <div>
+    <h2>Client Dashboard</h2>
+    <p>Overview of your transfers and recent activity.</p>
+  </div>
+</div>
+
+<app-chatbot></app-chatbot>
+
+<div class="stats-grid">
+
+  <div class="stat-card">
+    <span>Transfers</span>
+    <strong>{{ totalTransfers }}</strong>
+  </div>
+
+  <div class="stat-card">
+    <span>Pending</span>
+    <strong>{{ pending }}</strong>
+  </div>
+
+  <div class="stat-card">
+    <span>Successful</span>
+    <strong>{{ success }}</strong>
+  </div>
+
+  <div class="stat-card">
+    <span>Notifications</span>
+    <strong>{{ notifications }}</strong>
+  </div>
+
+</div>
+
+<div class="grid-three">
+
+  <section class="panel">
+    <h3>Last sent</h3>
+
+    @if (lastSent.length === 0) {
+      <p class="empty">No transfers sent.</p>
+    }
+
+    @for (t of lastSent; track t.payoutCode ?? $index) {
+      <div class="transfer-row">
+        <div>
+          <strong>{{ t.payoutCode }}</strong>
+          <p>{{ t.beneficiaryName }}</p>
+        </div>
+        <span [class.ok]="t.status === 'PAID'"
+              [class.wait]="t.status === 'PENDING'"
+              [class.canceled]="t.status === 'CANCELED'">
+          {{ t.status }}
+        </span>
+      </div>
+    }
+  </section>
+
+  <section class="panel">
+    <h3>Last received</h3>
+
+    @if (lastReceived.length === 0) {
+      <p class="empty">No transfers received.</p>
+    }
+
+    @for (t of lastReceived; track t.payoutCode ?? $index) {
+      <div class="transfer-row">
+        <div>
+          <strong>{{ t.payoutCode }}</strong>
+          <p>{{ t.senderName }}</p>
+        </div>
+        <span class="ok">PAID</span>
+      </div>
+    }
+  </section>
+
+  <section class="panel actions-panel">
+    <h3>Quick actions</h3>
+
+    <button class="action-button" type="button" (click)="goToNotifications()">
+      View my notifications
+    </button>
+
+    <button class="action-button" type="button" (click)="goToProfile()">
+      Edit my profile
+    </button>
+
+  </section>
+
+</div>

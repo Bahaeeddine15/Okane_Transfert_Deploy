@@ -1,0 +1,81 @@
+<section class="panel">
+
+  <div class="header">
+    <h2>My transfers</h2>
+    <div class="tabs">
+      <button type="button" [class.active]="activeView === 'sent'" (click)="setActiveView('sent')">
+        Sent
+      </button>
+      <button type="button" [class.active]="activeView === 'received'" (click)="setActiveView('received')">
+        Received
+      </button>
+    </div>
+  </div>
+
+  <p *ngIf="loading" class="loading">Loading...</p>
+  <p *ngIf="!loading && errorMessage" class="error">{{ errorMessage }}</p>
+
+  <ng-container *ngIf="!loading">
+
+    <div class="filter-bar" *ngIf="activeView === 'sent'">
+      <div class="status-tabs">
+        <button
+          *ngFor="let opt of statusOptions"
+          type="button"
+          class="filter-btn"
+          [class.active]="statusFilter === opt.value"
+          (click)="setStatusFilter(opt.value)">
+          {{ opt.label }}
+        </button>
+      </div>
+      <label class="search">
+        <input type="search" [(ngModel)]="searchTerm" placeholder="Search by code">
+      </label>
+    </div>
+
+    <div class="table-wrapper">
+      <table class="table">
+        <thead>
+          <tr>
+            <th>Code</th>
+            <th>{{ activeView === 'sent' ? 'Beneficiary' : 'Sender' }}</th>
+            <th>{{ activeView === 'sent' ? 'Amount' : 'Amount received' }}</th>
+            <th *ngIf="activeView === 'sent'">Fees</th>
+            <th>Status</th>
+            <th>{{ activeView === 'sent' ? 'Date' : 'Payment date' }}</th>
+            <th>Action</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let t of filteredTransfers; trackBy: trackByIndex">
+            <td>{{ t.payoutCode }}</td>
+            <td>{{ activeView === 'sent' ? t.beneficiaryName : t.senderName }}</td>
+            <td>{{ transferAmount(t) }}</td>
+            <td *ngIf="activeView === 'sent'">{{ t.cost }} {{ t.sendingCurrency }}</td>
+            <td>
+              <span class="status"
+                [class.pending]="t.status === 'PENDING'"
+                [class.paid]="t.status === 'PAID'"
+                [class.expired]="t.status === 'EXPIRED'"
+                [class.canceled]="t.status === 'CANCELED'">
+                {{ t.status }}
+              </span>
+            </td>
+            <td>{{ transferDate(t) }}</td>
+            <td>
+              <button class="btn-details" type="button" (click)="goDetails(t.payoutCode)">
+                Details
+              </button>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+
+      <p *ngIf="filteredTransfers.length === 0" class="empty-state">
+        {{ activeView === 'sent' ? 'No transfers sent.' : 'No transfers received yet.' }}
+      </p>
+    </div>
+
+  </ng-container>
+
+</section>

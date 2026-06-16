@@ -1,0 +1,31 @@
+<div class="client-shell" [class.sidebar-collapsed]="!isSidebarOpen">
+  <aside class="sidebar">
+    <div class="brand">
+      <div class="brand-logo">C</div>
+      <div>
+        <h1>Okane Transfert</h1>
+        <p>Client Portal</p>
+      </div>
+    </div>
+
+    <nav class="menu">
+      <a routerLink="/client" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }">Dashboard</a>
+      <a routerLink="/client/transfers" routerLinkActive="active">My transfers</a>
+      <a routerLink="/client/notifications" routerLinkActive="active">Notifications</a>
+      <a routerLink="/client/profile" routerLinkActive="active">Profile</a>
+    </nav>
+  </aside>
+
+  <div class="main">
+    <app-navbar
+      avatarText="CL"
+      userTitle="Client"
+      userSubtitle="Client Portal"
+      [showSearch]="false"
+    ></app-navbar>
+
+    <main class="content">
+      <router-outlet></router-outlet>
+    </main>
+  </div>
+</div>

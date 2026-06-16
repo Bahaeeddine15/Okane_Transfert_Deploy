@@ -1,0 +1,53 @@
+<div class="auth-shell">
+  <section class="hero">
+    <div class="badge">Agent Access</div>
+    <h1>Agent Portal</h1>
+    <p>Quick access to manage transfers, payouts, and the cash register.</p>
+  </section>
+
+  <section class="card">
+    <h2>Agent sign in</h2>
+
+    <form [formGroup]="form" (ngSubmit)="submit()">
+      <label>
+        <span>Email</span>
+        <input
+          type="email"
+          placeholder="agent@okanetransfert.com"
+          formControlName="email"
+        />
+      </label>
+
+      @if (form.controls.email.touched && form.controls.email.invalid) {
+      <small class="error">
+        A valid email address is required.
+      </small>
+      }
+
+      <label>
+        <span>Password</span>
+        <input
+          type="password"
+          placeholder="••••••••"
+          formControlName="password"
+        />
+      </label>
+
+      @if (form.controls.password.touched && form.controls.password.invalid) {
+      <small class="error">
+        Password is required.
+      </small>
+      }
+
+      @if (errorMessage) {
+      <p class="error">
+        {{ errorMessage }}
+      </p>
+      }
+
+      <button type="submit" [disabled]="loading">
+        {{ loading ? 'Signing in...' : 'Sign in' }}
+      </button>
+    </form>
+  </section>
+</div>

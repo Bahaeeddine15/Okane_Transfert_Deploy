@@ -1,0 +1,75 @@
+<div class="page-header">
+  <h2>Notifications</h2>
+  <p>Track all your activity in real time</p>
+</div>
+
+@if (loading) {
+  <div class="loading-state">
+    <div class="spinner"></div>
+    <p>Loading notifications...</p>
+  </div>
+}
+
+@if (errorMessage && !loading) {
+  <div class="error-message">
+    <p>{{ errorMessage }}</p>
+    <button (click)="loadNotifications()" class="retry-btn">Retry</button>
+  </div>
+}
+
+@if (!loading && !errorMessage) {
+  <div class="notifications-container">
+
+    @if (notifications.length === 0) {
+      <div class="empty-state">
+        <h3>No notifications</h3>
+        <p>You have no notifications yet</p>
+      </div>
+    }
+
+    @if (notifications.length > 0) {
+      <div class="notifications-list">
+        @for (notif of notifications; track notif.id || $index) {
+          <div
+            class="notification-card"
+            [class]="'notif-' + getNotificationClass(notif.type)"
+            [class.unread]="!notif.read"
+            (click)="markAsRead(notif)">
+
+            <div class="notif-content">
+              <div class="notif-header">
+                <span class="notif-type">{{ getTypeLabel(notif.type) }}</span>
+                <span class="notif-time">{{ formatDate(notif.sentAt || notif.createdAt) }}</span>
+              </div>
+
+              <p class="notif-message">{{ notif.message }}</p>
+
+              @if (notif.channel) {
+                <div class="notif-footer">
+                  <span class="notif-channel">
+                    @if (notif.channel === 'EMAIL') {
+                      <span>Email</span>
+                    }
+                    @if (notif.channel === 'SMS') {
+                      <span>SMS</span>
+                    }
+                  </span>
+                </div>
+              }
+            </div>
+
+            @if (!notif.read) {
+              <div class="unread-indicator"></div>
+            }
+          </div>
+        }
+      </div>
+
+      <div class="notifications-footer">
+        <p class="notifications-count">
+          {{ notifications.length }} notification{{ notifications.length > 1 ? 's' : '' }}
+        </p>
+      </div>
+    }
+  </div>
+}

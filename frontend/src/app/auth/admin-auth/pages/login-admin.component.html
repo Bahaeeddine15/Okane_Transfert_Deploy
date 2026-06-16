@@ -1,0 +1,93 @@
+<!-- src/app/auth/admin-auth/pages/login-admin.component.html -->
+<section class="login-shell">
+  <div class="login-hero">
+    <div class="brand">
+      <div class="brand-mark">OT</div>
+      <div class="brand-text">
+        <strong>Okane Transfert</strong>
+        <span>Admin portal</span>
+      </div>
+    </div>
+
+    <div class="hero-copy">
+      <p class="eyebrow">Administration</p>
+      <h1>Control the transfer network with clarity.</h1>
+      <p>
+        Monitor currencies, corridors, agencies, fees, reports, and audit logs from one clean back-office workspace.
+      </p>
+    </div>
+
+    <div class="hero-badges">
+      <span>Dashboard</span>
+      <span>Compliance</span>
+      <span>Operations</span>
+    </div>
+  </div>
+
+  <div class="login-panel">
+    <div class="panel-header">
+      <p class="eyebrow">Welcome back</p>
+      <h2>Sign in to admin</h2>
+      <p>Use your administrator credentials to access the back-office.</p>
+    </div>
+
+    <form class="login-form" [formGroup]="form" (ngSubmit)="submit()">
+      <label class="field">
+        <span>Email address</span>
+        <input
+          type="email"
+          placeholder="admin@okanetransfert.com"
+          formControlName="email"
+        />
+      </label>
+
+      @if (form.controls.email.touched && form.controls.email.invalid) {
+      <small class="field-error">
+        Please enter a valid email address.
+      </small>
+      }
+
+      <label class="field">
+        <span>Password</span>
+        <input
+          type="password"
+          placeholder="Enter your password"
+          formControlName="password"
+        />
+      </label>
+
+      @if (form.controls.password.touched && form.controls.password.invalid) {
+      <small class="field-error">
+        Password is required.
+      </small>
+      }
+
+      @if (errorMessage) {
+      <p class="field-error">
+        {{ errorMessage }}
+      </p>
+      }
+
+      <div class="form-actions">
+        <button type="submit" class="primary-btn" [disabled]="loading">
+          {{ loading ? 'Signing in...' : 'Enter admin portal' }}
+        </button>
+
+        <button type="button" class="secondary-btn" disabled>
+          Reset password
+        </button>
+      </div>
+    </form>
+
+    <div class="info-grid">
+      <div class="info-card">
+        <strong>Live overview</strong>
+        <span>Quick access to monitoring and governance.</span>
+      </div>
+      <div class="info-card">
+        <strong>Secure design</strong>
+        <span>Built for a professional back-office UI.</span>
+      </div>
+    </div>
+  </div>
+</section>

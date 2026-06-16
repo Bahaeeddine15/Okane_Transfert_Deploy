@@ -1,0 +1,32 @@
+<div class="agent-shell" [class.sidebar-collapsed]="!isSidebarOpen">
+  <aside class="sidebar">
+    <div class="brand">
+      <div class="brand-logo">A</div>
+      <div>
+        <h1>Okane Transfert</h1>
+        <p>Agent Portal</p>
+      </div>
+    </div>
+
+    <nav class="menu">
+      <a routerLink="/agent" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }">Dashboard</a>
+      <a routerLink="/agent/transfers/create" routerLinkActive="active">Create Transfer</a>
+      <a routerLink="/agent/transfers/receive" routerLinkActive="active">Pay Transfer</a>
+      <a routerLink="/agent/transfers/history" routerLinkActive="active">History</a>
+      <a routerLink="/agent/cash" routerLinkActive="active">Cash Register</a>
+    </nav>
+  </aside>
+
+  <div class="main">
+    <app-navbar
+      avatarText="AG"
+      userTitle="Agent"
+      userSubtitle="Teller"
+      (sidebarToggle)="toggleSidebar()"
+    ></app-navbar>
+
+    <main class="content">
+      <router-outlet></router-outlet>
+    </main>
+  </div>
+</div>

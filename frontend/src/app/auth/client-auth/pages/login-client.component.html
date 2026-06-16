@@ -1,0 +1,44 @@
+<div class="auth-shell">
+  <section class="hero">
+    <div class="badge">Client Access</div>
+    <h1>Client Portal</h1>
+    <p>Track your transfers, notifications, and profile in just a few clicks.</p>
+  </section>
+
+  <section class="card">
+    <h2>Client sign in</h2>
+    <form [formGroup]="form" (ngSubmit)="submit()">
+      <label>
+        <span>Email</span>
+        <input
+          type="email"
+          placeholder="client@example.com"
+          formControlName="email"
+        />
+      </label>
+
+      <label>
+        <span>Password</span>
+        <input
+          type="password"
+          placeholder="••••••••"
+          formControlName="password"
+        />
+      </label>
+
+      @if (errorMessage) {
+      <p class="error">
+        {{ errorMessage }}
+      </p>
+      }
+
+      <button type="submit" [disabled]="loading">
+        {{ loading ? 'Signing in...' : 'Sign in' }}
+      </button>
+    </form>
+
+    
+    
+    <a routerLink="/auth/client/signup">Create a client account</a>
+  </section>
+</div>

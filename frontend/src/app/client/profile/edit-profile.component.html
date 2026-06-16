@@ -1,0 +1,22 @@
+<div class="panel">
+  <h2>My profile</h2>
+
+  <label>
+    <span>First name</span>
+    <input type="text" [(ngModel)]="profile.fname" />
+  </label>
+
+  <label>
+    <span>Last name</span>
+    <input type="text" [(ngModel)]="profile.lname" />
+  </label>
+
+  <label>
+    <span>Email</span>
+    <input type="email" [(ngModel)]="profile.email"  />
+  </label>
+
+  <button type="button" (click)="save()" class="action-button primary">
+    Save
+  </button>
+</div>

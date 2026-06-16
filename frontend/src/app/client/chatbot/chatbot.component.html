@@ -1,0 +1,61 @@
+<div class="chatbot-widget" [class.open]="isOpen">
+  @if (isOpen) {
+    <section class="chat-window" aria-label="Okane Transfer Assistant">
+      <header class="chat-header">
+        <div>
+          <h3>Okane Transfer Assistant</h3>
+          <span>Client support</span>
+        </div>
+
+        <button class="close-button" type="button" aria-label="Close chat" (click)="closeChat()">
+          x
+        </button>
+      </header>
+
+      <div class="chat-toolbar">
+        <label for="chatbot-language">Language</label>
+        <select id="chatbot-language" name="language" [(ngModel)]="language" [disabled]="isLoading">
+          <option value="fr">French</option>
+          <option value="en">English</option>
+          <option value="ar">Arabic</option>
+        </select>
+      </div>
+
+      <div #messagesList class="messages-list">
+        @for (chatMessage of messages; track $index) {
+          <div class="message-row" [class.user]="chatMessage.author === 'user'">
+            <p>{{ chatMessage.text }}</p>
+          </div>
+        }
+
+        @if (isLoading) {
+          <div class="message-row">
+            <p class="typing">Assistant is typing...</p>
+          </div>
+        }
+      </div>
+
+      <form class="chat-form" (ngSubmit)="sendMessage()">
+        <input
+          type="text"
+          name="message"
+          autocomplete="off"
+          placeholder="Write a message..."
+          [(ngModel)]="message"
+          [disabled]="isLoading"
+        />
+        <button type="submit" [disabled]="isLoading || !message.trim()">Send</button>
+      </form>
+    </section>
+  }
+
+  <button
+    class="chat-toggle"
+    type="button"
+    aria-label="Open chat"
+    [attr.aria-expanded]="isOpen"
+    (click)="isOpen ? closeChat() : openChat()"
+  >
+    <span class="chat-icon" aria-hidden="true"></span>
+  </button>
+</div>
