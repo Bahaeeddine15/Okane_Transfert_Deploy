@@ -1,4 +1,4 @@
-export const API_BASE_URL = 'http://localhost:8080/Okane_Transfert_war/api';
+export const API_BASE_URL = 'https://bahaeeddine15-okane-transfert-api.hf.space/api';
 
 // Si ton backend est déployé en WAR avec context path :
 // export const API_BASE_URL = 'http://localhost:8080/api';
